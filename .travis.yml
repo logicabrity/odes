@@ -34,7 +34,7 @@ install:
   - conda create --quiet --yes --name p$TRAVIS_PYTHON_VERSION python=$TRAVIS_PYTHON_VERSION nomkl numpy scipy sundials nose
   - source activate p$TRAVIS_PYTHON_VERSION
   - if [[ "$TRAVIS_PYTHON_VERSION" < "3.4" ]]; then
-      conda install --quiet --yes enum34
+      conda install --quiet --yes enum34;
     fi
   - python setup.py build
   - python setup.py install
