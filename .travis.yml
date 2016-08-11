@@ -1,0 +1,47 @@
+sudo: false
+language: python
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+
+addons:
+  apt:
+    packages:
+      - gfortran
+
+branches:
+  only:
+    - master
+    - dev
+
+env:
+  - SUNDIALS_INST=$HOME/miniconda
+
+before_install:
+  - deactivate  # deactivate virtualenv
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      wget https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh;
+    else
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    fi
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH=$HOME/miniconda/bin:$PATH
+
+install:
+  - conda config --add channels logicabrity
+  - conda config --add channels cyclus
+  - conda create --quiet --yes --name p$TRAVIS_PYTHON_VERSION python=$TRAVIS_PYTHON_VERSION nomkl numpy scipy sundials nose
+  - source activate p$TRAVIS_PYTHON_VERSION
+  - if [[ "$TRAVIS_PYTHON_VERSION" < "3.4" ]]; then
+      conda install --quiet --yes enum34;
+    fi
+  - python setup.py build
+  - python setup.py install
+
+script:
+  - python -c 'import scikits.odes as od; od.test()'
+
+notifications:
+  email:
+    on_failure: always
