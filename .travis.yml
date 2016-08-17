@@ -16,7 +16,7 @@ branches:
     - dev
 
 env:
-  - SUNDIALS_INST=$HOME/miniconda
+  - SUNDIALS_INST=$HOME/miniconda/envs/p$TRAVIS_PYTHON_VERSION
 
 before_install:
   - deactivate  # deactivate virtualenv
