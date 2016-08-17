@@ -31,7 +31,7 @@ before_install:
 install:
   - conda config --add channels logicabrity
   - conda config --add channels cyclus
-  - conda create --quiet --yes --name p$TRAVIS_PYTHON_VERSION python=$TRAVIS_PYTHON_VERSION nomkl numpy scipy sundials nose
+  - conda create --quiet --yes --name p$TRAVIS_PYTHON_VERSION python=$TRAVIS_PYTHON_VERSION cython nomkl numpy scipy sundials nose
   - source activate p$TRAVIS_PYTHON_VERSION
   - if [[ "$TRAVIS_PYTHON_VERSION" < "3.4" ]]; then
       conda install --quiet --yes enum34;
